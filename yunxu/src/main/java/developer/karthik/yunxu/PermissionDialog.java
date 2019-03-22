@@ -21,7 +21,7 @@ public class PermissionDialog extends DialogFragment {
         this.buttonClickListener = buttonClickListener;
     }
 
-    public static PermissionDialog newInstanc(String title,String desc){
+    public static PermissionDialog newInstance(String title,String desc){
         PermissionDialog permissionDialog = new PermissionDialog();
 
         Bundle bundle = new Bundle();

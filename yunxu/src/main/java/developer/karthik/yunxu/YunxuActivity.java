@@ -26,6 +26,7 @@ public class YunxuActivity extends Activity
 
     Dialog permissionDialog;
     List<String> permissions;
+    boolean isBuiltInDialogRequired;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class YunxuActivity extends Activity
 
         Intent i = getIntent();
 
+        isBuiltInDialogRequired = i.getBooleanExtra("isBuiltInDialogRequired",false);
         permissions = (ArrayList<String>) i.getSerializableExtra("permissions");
         final ArrayList<String> permissionsNotGranted = new ArrayList<>();
 
@@ -44,34 +46,35 @@ public class YunxuActivity extends Activity
             }
         }
 
-
         if (permissionsNotGranted.size() > 0) {
 
-            String dialogTitle = i.getStringExtra("title");
-            String dialogDesc = i.getStringExtra("desc");
+//            String dialogTitle = i.getStringExtra("title");
+//            String dialogDesc = i.getStringExtra("desc");
+//
+//            permissionDialog = new Dialog(this);
+//            permissionDialog.setTitle(dialogTitle);
+//            permissionDialog.setContentView(R.layout.permission_dialog);
+//
+//            ((TextView)permissionDialog.findViewById(R.id.title)).setText(dialogTitle);
+//            ((TextView)permissionDialog.findViewById(R.id.desc)).setText(dialogDesc);
+//
+//            ((TextView)permissionDialog.findViewById(R.id.grant_btn)).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onGrantButtonClicked(permissionsNotGranted);
+//                }
+//            });
+//
+//            ((TextView)permissionDialog.findViewById(R.id.deny_btn)).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onDenyButtonClicked();
+//                }
+//            });
+//
+//            permissionDialog.show();
 
-            permissionDialog = new Dialog(this);
-            permissionDialog.setTitle(dialogTitle);
-            permissionDialog.setContentView(R.layout.permission_dialog);
-
-            ((TextView)permissionDialog.findViewById(R.id.title)).setText(dialogTitle);
-            ((TextView)permissionDialog.findViewById(R.id.desc)).setText(dialogDesc);
-
-            ((TextView)permissionDialog.findViewById(R.id.grant_btn)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onGrantButtonClicked(permissionsNotGranted);
-                }
-            });
-
-            ((TextView)permissionDialog.findViewById(R.id.deny_btn)).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onDenyButtonClicked();
-                }
-            });
-
-            permissionDialog.show();
+            onGrantButtonClicked(permissionsNotGranted);
 
         }
 
@@ -87,18 +90,13 @@ public class YunxuActivity extends Activity
         List<String> permissionsToGotoSetting = new ArrayList<>();
 
         for (int i = 0; i < permissions.length; i++) {
-            //Tutkia.Log(TAG, permissions[i] + " --> " + grantResults[i]);
-
             if (grantResults[i] == -1 && ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
-                //Tutkia.Log(TAG,"Show Details about permission");
                 permissionsToShowDetail.add(permissions[i]);
             } else if (grantResults[i] == -1 && !ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
-                // Tutkia.Log(TAG,"Go to setting page");
                 permissionsToGotoSetting.add(permissions[i]);
             } else {
-                Log.e(TAG, "Permissions all granted");
+                Log.e(TAG, "Permissions granted");
             }
-
         }
 
         if (permissionsToGotoSetting.size() > 0) {
@@ -108,6 +106,8 @@ public class YunxuActivity extends Activity
             Uri uri = Uri.fromParts("package", this.getPackageName(), null);
             intent.setData(uri);
             this.startActivity(intent);
+        }else if(permissionsToShowDetail.size()>0){
+
         }
 
     }
