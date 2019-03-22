@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="developer.karthik.yunxu">
+    <application>
+        <activity android:name=".YunxuActivity"
+            android:theme="@style/Dexter.Internal.Theme.Transparent"/>
+    </application>
+</manifest>
