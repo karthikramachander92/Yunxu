@@ -15,6 +15,6 @@ Add it in your root build.gradle at the end of repositories
 Add the dependency
 
 	dependencies {
-	        implementation 'com.github.karthikramachander92:Yunxu:Tag'
+	        implementation 'com.github.karthikramachander92:Yunxu:0.0.1'
 	}
  
